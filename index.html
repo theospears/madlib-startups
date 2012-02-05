@@ -1,0 +1,133 @@
+<html>
+<head>
+<style>
+.intro {
+	font-style: italic;
+	font-weight: bold;
+	text-align: center;
+	margin-top: 3em;
+	margin-bottom: 3em;
+}
+
+.description {
+	text-align: center;
+	font-size: 300%;
+	width: 60%;
+	margin-left: auto;
+	margin-right: auto;
+	line-height: 150%;
+}
+
+.description input {
+	font-size: 100%;
+}
+.description span:hover {
+	border-bottom: 1px dotted #ba0000;
+}
+
+.see-more {
+	text-align: center;
+}
+.see-more a {
+	text-decoration: none;
+	color: blue;
+}
+#MeasureText
+{
+		font-size: 380%;
+    position: absolute;
+    visibility: hidden;
+    height: auto;
+    width: auto;
+}
+
+</style>
+</head>
+<body>
+<div id="MeasureText"></div>
+<p class="intro">I want to tell you about my cool new startup...</p>
+<p class="description" id="description"></p>
+
+<p class="see-more"><a href="#" id="see-more" onclick="javascript:set_description()">That's cool, are you involved in any other startups?</a></p>
+
+<script type="text/javascript">
+
+var items = {
+	'famous_startup': ['Groupon', 'Facebook', 'Airbnb', 'TechCrunch', 'Reddit', 'Foursquare', 'Spotify', 'Uber'],
+	'customer_type': ['opticians', 'dog walkers', 'astronauts', 'journalists', 'dogs', 'stamp collectors', 'people who can\'t speak', 'arachnophobes'],
+	'colour': ['Red', 'Blue', 'Orange', 'Mauve', 'Purple'],
+	'noun': ['Ostriches', 'Giraffe', 'Systems', 'Potato', 'Software', 'Bus'],
+	'company_name': ['The Big $colour $noun', '$colour $noun'],
+	'defined_offering' : ['a web application', 'a facebook app', 'an iPhone app'],
+	'solve_problem': ['meet people', 'find jobs', 'find love', 'organise their lives', 'plan their weddings', 'take over the world', 'obtain leads', 'reach their fans', 'embrace the cloud'],
+	'in_way': ['', 'through crowdsourcing', 'offline', 'using big data analytics', 'and $solve_problem'],
+	'template': [
+		"It's like $famous_startup but for $customer_type",
+		"My company, $company_name, is developing $defined_offering to help $customer_type $solve_problem $in_way"
+	]
+}
+
+function random_element(arr) {
+	return arr[Math.floor(Math.random()*arr.length)];
+}
+
+function fill_template(template, source) {
+	var input = "";
+	var result = template;
+	while(result != input) {
+		input = result;
+		result = input.replace(/\$\w+/g, function(type) {
+			var substitute = source[type.substring(1)];
+			if(typeof substitute === 'undefined') {
+				return type;
+			} else if(Object.prototype.toString.call(substitute) === '[object Array]') {
+				return '<span class="' + type.substring(1) + '">' + random_element(substitute) + '</span>';
+			} else if(typeof substitute === 'function') {
+				return substitute();
+			}
+		});
+	}
+	return result;
+}
+
+function set_description() {
+	var description = fill_template(random_element(items['template']), items);
+	document.getElementById('description').innerHTML = description;
+	var words = document.getElementsByTagName('span');
+	for(var i = 0; i < words.length; i++) {
+		words[i].onclick = function() {
+			var theSpan = this;
+			theSpan.style.display = "none";
+			var input = document.createElement('input');
+			input.type = 'text';
+			input.value = theSpan.innerText;
+			input.style.width = measureText(theSpan.innerText);
+			input.onblur=function() {
+				if(this.value !== '') {
+					theSpan.innerText = this.value;
+
+					// TODO: Send the data back to the server
+				}
+				theSpan.style.display = "inline";
+				this.parentNode.removeChild(this);
+
+			}
+			this.parentNode.insertBefore(input, theSpan);
+			input.focus();
+			input.select();
+		};
+	}
+	return false;
+}
+
+function measureText(text)
+{
+	var test = document.getElementById("MeasureText");
+	test.innerText = text;
+	return (test.clientWidth + 1) + "px";
+}
+
+set_description();
+</script>
+</body>
+</html>
