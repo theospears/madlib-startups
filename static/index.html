@@ -42,6 +42,7 @@
 }
 
 </style>
+<script type="text/javascript" src="/jquery-1.7.1.min.js" ></script>
 </head>
 <body>
 <div id="MeasureText"></div>
@@ -51,21 +52,6 @@
 <p class="see-more"><a href="#" id="see-more" onclick="javascript:set_description()">That's cool, are you involved in any other startups?</a></p>
 
 <script type="text/javascript">
-
-var items = {
-	'famous_startup': ['Groupon', 'Facebook', 'Airbnb', 'TechCrunch', 'Reddit', 'Foursquare', 'Spotify', 'Uber'],
-	'customer_type': ['opticians', 'dog walkers', 'astronauts', 'journalists', 'dogs', 'stamp collectors', 'people who can\'t speak', 'arachnophobes'],
-	'colour': ['Red', 'Blue', 'Orange', 'Mauve', 'Purple'],
-	'noun': ['Ostriches', 'Giraffe', 'Systems', 'Potato', 'Software', 'Bus'],
-	'company_name': ['The Big $colour $noun', '$colour $noun'],
-	'defined_offering' : ['a web application', 'a facebook app', 'an iPhone app'],
-	'solve_problem': ['meet people', 'find jobs', 'find love', 'organise their lives', 'plan their weddings', 'take over the world', 'obtain leads', 'reach their fans', 'embrace the cloud'],
-	'in_way': ['', 'through crowdsourcing', 'offline', 'using big data analytics', 'and $solve_problem'],
-	'template': [
-		"It's like $famous_startup but for $customer_type",
-		"My company, $company_name, is developing $defined_offering to help $customer_type $solve_problem $in_way"
-	]
-}
 
 function random_element(arr) {
 	return arr[Math.floor(Math.random()*arr.length)];
@@ -90,7 +76,7 @@ function fill_template(template, source) {
 	return result;
 }
 
-function set_description() {
+function set_description(items) {
 	var description = fill_template(random_element(items['template']), items);
 	document.getElementById('description').innerHTML = description;
 	var words = document.getElementsByTagName('span');
@@ -127,7 +113,13 @@ function measureText(text)
 	return (test.clientWidth + 1) + "px";
 }
 
-set_description();
+$(function() {
+	$.get('/template-data', function(data) {
+		set_description(data);
+
+		$('#see-more').click(function() { set_description(data); return false; });
+	});
+});
 </script>
 </body>
 </html>
