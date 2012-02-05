@@ -35,7 +35,6 @@ app.post('/new-phrase', function(req, res, next) {
 			coll.find({_id: req.body['category']}).each(function(err, doc) {
 				if(doc != null)
 				{
-					console.log("Found it");
 					doc.entries.push(req.body['phrase']);
 					coll.update({_id: doc._id }, doc);
 				}
