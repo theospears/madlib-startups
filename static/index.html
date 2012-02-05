@@ -89,10 +89,13 @@ function set_description(items) {
 			input.value = theSpan.innerText;
 			input.style.width = measureText(theSpan.innerText);
 			input.onblur=function() {
-				if(this.value !== '') {
+				if(this.value !== '' && this.value !== theSpan.innerText) {
 					theSpan.innerText = this.value;
 
-					// TODO: Send the data back to the server
+					$.post("/new-phrase", {
+						'category': theSpan.className,
+						'phrase': input.value
+					});
 				}
 				theSpan.style.display = "inline";
 				this.parentNode.removeChild(this);
