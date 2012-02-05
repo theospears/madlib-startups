@@ -1,0 +1,41 @@
+.intro {
+	font-style: italic;
+	font-weight: bold;
+	font-size: 150%;
+	text-align: center;
+	margin-top: 3em;
+	margin-bottom: 3em;
+}
+
+.description {
+	text-align: center;
+	font-size: 300%;
+	width: 60%;
+	margin-left: auto;
+	margin-right: auto;
+	line-height: 150%;
+}
+
+.description input {
+	font-size: 100%;
+}
+.description span:hover {
+	border-bottom: 1px dotted #ba0000;
+}
+
+.see-more {
+	text-align: center;
+}
+.see-more a {
+	text-decoration: none;
+	color: blue;
+}
+#MeasureText
+{
+		font-size: 380%;
+    position: absolute;
+    visibility: hidden;
+    height: auto;
+    width: auto;
+}
+
