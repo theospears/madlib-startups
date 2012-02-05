@@ -116,12 +116,17 @@ function measureText(text)
 	return (test.clientWidth + 1) + "px";
 }
 
-$(function() {
+function set_description_from_server() {
 	$.get('/template-data', function(data) {
 		set_description(data);
-
-		$('#see-more').click(function() { set_description(data); return false; });
 	});
+	return false;
+}
+
+$(function() {
+	$('#see-more').click(set_description_from_server);
+	set_description_from_server();
+
 });
 </script>
 </body>
