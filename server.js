@@ -40,7 +40,6 @@ app.get('/template-data', function(req, res, next) {
 
 
 app.post('/phrases/:category', function(req, res, next) {
-	console.log(req.params.category);
 	mongodb.connect(MONGO_URL, function(err, conn) {
 		conn.collection('phrases', function(err, coll) {
 			put_phrase(coll, req.params.category, req.body['content']);
