@@ -1,6 +1,12 @@
 express = require('express');
 mongodb = require('mongodb');
 
+
+function put_phrase(coll, category, phrase) {
+	var obj = {'category': category, 'phrase': phrase };
+	coll.update(obj, obj, {upsert: true});
+}
+
 var MONGO_URL = "mongodb://localhost:27017/madlibs-startups"
 
 var app = express.createServer();
@@ -13,11 +19,14 @@ app.get('/template-data', function(req, res, next) {
 	var response = {};
 
 	mongodb.connect(MONGO_URL, function(err, conn) {
-		conn.collection('items', function(err, coll) {
+		conn.collection('phrases', function(err, coll) {
 			coll.find().each(function(err, doc) {
 				if(doc != null)
 				{
-					response[doc._id] = doc.entries;
+					if(!response.hasOwnProperty(doc.category)) {
+						response[doc.category] = [];
+					}
+					response[doc.category].push(doc.phrase);
 				}
 				else
 				{
@@ -29,21 +38,13 @@ app.get('/template-data', function(req, res, next) {
 
 });
 
+
 app.post('/phrases/:category', function(req, res, next) {
 	console.log(req.params.category);
 	mongodb.connect(MONGO_URL, function(err, conn) {
-		conn.collection('items', function(err, coll) {
-			coll.find({_id: req.params.category}).each(function(err, doc) {
-				if(doc != null)
-				{
-					doc.entries.push(req.body['content']);
-					coll.update({_id: doc._id }, doc);
-				}
-				else
-				{
-					res.send("");
-				}
-			});
+		conn.collection('phrases', function(err, coll) {
+			put_phrase(coll, req.params.category, req.body['content']);
+			res.send("");
 		});
 	});
 });
@@ -66,10 +67,12 @@ app.get('/initial-data', function(req, res, next) {
 	}
 
 	mongodb.connect(MONGO_URL, function(err, conn) {
-		conn.collection('items', function(err, coll) {
-			for(var v in items) {
-				if(items.hasOwnProperty(v)) {
-					coll.insert({_id: v, entries: items[v]});
+		conn.collection('phrases', function(err, coll) {
+			for(var category in items) {
+				if(items.hasOwnProperty(category)) {
+					for(var i = 0; i < items[category].length; i++) {
+						put_phrase(coll, category, items[category][i]);
+					}
 				}
 			}
 		});
