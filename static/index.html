@@ -41,7 +41,7 @@ function set_description(items) {
 	document.getElementById('description').innerHTML = description;
 	var words = document.getElementsByTagName('span');
 	for(var i = 0; i < words.length; i++) {
-		words[i].onclick = function() {
+		words[i].onclick = function(ev) {
 			var theSpan = this;
 			theSpan.style.display = "none";
 			var input = document.createElement('input');
@@ -70,6 +70,7 @@ function set_description(items) {
 			this.parentNode.insertBefore(input, theSpan);
 			input.focus();
 			input.select();
+			ev.stopPropagation();
 		};
 	}
 	return false;
