@@ -29,13 +29,14 @@ app.get('/template-data', function(req, res, next) {
 
 });
 
-app.post('/new-phrase', function(req, res, next) {
+app.post('/phrases/:category', function(req, res, next) {
+	console.log(req.params.category);
 	mongodb.connect(MONGO_URL, function(err, conn) {
 		conn.collection('items', function(err, coll) {
-			coll.find({_id: req.body['category']}).each(function(err, doc) {
+			coll.find({_id: req.params.category}).each(function(err, doc) {
 				if(doc != null)
 				{
-					doc.entries.push(req.body['phrase']);
+					doc.entries.push(req.body['content']);
 					coll.update({_id: doc._id }, doc);
 				}
 				else

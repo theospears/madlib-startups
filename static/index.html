@@ -53,9 +53,8 @@ function set_description(items) {
 				if(input.value !== '' && input.value !== theSpan.innerText) {
 					theSpan.innerText = input.value;
 
-					$.post("/new-phrase", {
-						'category': theSpan.className,
-						'phrase': input.value
+					$.post("/phrases/" + theSpan.className, {
+						'content': input.value
 					});
 				}
 				theSpan.style.display = "inline";
