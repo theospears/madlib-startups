@@ -24,20 +24,14 @@ function fill_template(template, source) {
 		input = result;
 		result = input.replace(/\$\w+/g, function(type) {
 			var substitute = source[type.substring(1)];
-			if(typeof substitute === 'undefined') {
-				return type;
-			} else if(Object.prototype.toString.call(substitute) === '[object Array]') {
-				return '<span class="' + type.substring(1) + '">' + random_element(substitute) + '</span>';
-			} else if(typeof substitute === 'function') {
-				return substitute();
-			}
+			return '<span class="' + type.substring(1) + '">' + random_element(substitute).phrase + '</span>';
 		});
 	}
 	return result;
 }
 
 function set_description(items) {
-	var description = fill_template(random_element(items['template']), items);
+	var description = fill_template(random_element(items['template']).phrase, items);
 	document.getElementById('description').innerHTML = description;
 	var words = document.getElementsByTagName('span');
 	for(var i = 0; i < words.length; i++) {

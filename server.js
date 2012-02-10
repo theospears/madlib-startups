@@ -26,7 +26,7 @@ app.get('/template-data', function(req, res, next) {
 					if(!response.hasOwnProperty(doc.category)) {
 						response[doc.category] = [];
 					}
-					response[doc.category].push(doc.phrase);
+					response[doc.category].push({id: doc._id, phrase: doc.phrase});
 				}
 				else
 				{
