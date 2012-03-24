@@ -40,6 +40,7 @@ function set_description(items) {
 	var words = document.getElementsByTagName('span');
 	for(var i = 0; i < words.length; i++) {
 		words[i].onclick = function(ev) {
+			var alreadyDone = false;
 			var theSpan = this;
 			theSpan.style.display = "none";
 			var input = document.createElement('input');
@@ -47,8 +48,12 @@ function set_description(items) {
 			input.value = theSpan.innerText;
 			input.style.width = measureText(theSpan.innerText);
 
-			function hideEditor() {
-				if(input.value !== '' && input.value !== theSpan.innerText) {
+			function hideEditor(save) {
+				if(alreadyDone) {
+					return;
+				}
+				alreadyDone = true;
+				if(save && input.value !== '' && input.value !== theSpan.innerText) {
 					theSpan.innerText = input.value;
 
 					$.post("/phrases/" + theSpan.className, {
@@ -58,10 +63,15 @@ function set_description(items) {
 				theSpan.style.display = "inline";
 				input.parentNode.removeChild(input);
 			}
-			input.onblur=hideEditor;
+
+			input.onblur=function() { hideEditor(true); };
 			input.onkeydown = function(ev) {
 				if(ev.which == 13 || ev.keyCode == 13) {
-					hideEditor();
+					hideEditor(true);
+				}
+				if(ev.which == 27 || ev.keyCode == 27)
+				{
+					hideEditor(false);
 				}
 			};
 
