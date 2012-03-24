@@ -19,7 +19,7 @@
 .description input {
 	font-size: 100%;
 }
-.description span:hover {
+.description span.hover {
 	border-bottom: 1px dotted #ba0000;
 }
 
