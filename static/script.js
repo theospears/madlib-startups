@@ -11,6 +11,7 @@ function element_for_category_member(category, source) {
 	var phrase = random_element(source[category]);
 	var $whole = $('<span>' + phrase.phrase.replace(/\$(\w+)/g,'<span>$1</span>') + '</span>');
 	$whole.data('id', phrase.id);
+	$whole.data('category', category);
 	$whole.find('span').each(function() {
 		var $this = $(this);
 		$this.replaceWith(element_for_category_member($this.text(), source));
@@ -96,6 +97,20 @@ function set_description_from_server() {
 		set_description(data);
 	});
 	return false;
+}
+
+function build_content_tree(element) {
+	var $element = $(element);
+	return {
+		'category': $element.data('category'),
+		'id': $element.data('id'),
+		'children': $element.children().map(function() { return content_tree(this); })
+	}
+}
+
+function get_content_tree() {
+	var $description = $('#description').children()[0];
+	return build_content_tree($description);
 }
 
 $(function() {
