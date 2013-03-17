@@ -59,6 +59,7 @@ function set_description(items) {
 
 					$.post("/phrases/" + theSpan.className, {
 						'content': input.value
+						// TODO: Change the ID of the resulting element
 					});
 				}
 				theSpan.style.display = "inline";
