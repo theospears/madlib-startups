@@ -4,7 +4,7 @@ mongodb = require('mongodb');
 
 function put_phrase(coll, category, phrase) {
 	var obj = {'category': category, 'phrase': phrase };
-	coll.update(obj, obj, {upsert: true});
+	coll.update(obj, obj, {upsert: true, w: 0});
 }
 
 var MONGO_URL = "mongodb://localhost:27017/madlibs-startups"
