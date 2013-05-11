@@ -51,14 +51,14 @@ app.post('/phrases/:category', function(req, res, next) {
 
 app.get('/initial-data', function(req, res, next) {
 	var items = {
-		'famous_startup': ['Groupon', 'Facebook', 'Airbnb', 'TechCrunch', 'Reddit', 'Foursquare', 'Spotify', 'Uber'],
-		'customer_type': ['opticians', 'dog walkers', 'astronauts', 'journalists', 'dogs', 'stamp collectors', 'people who can\'t speak', 'arachnophobes'],
+		'famous_startup': ['Groupon', 'Facebook', 'AirBnB', 'TechCrunch', 'Reddit', 'FourSquare', 'Spotify', 'Uber', 'Gawker', 'The Times', 'Hacker News', 'Amazon', 'Apple', 'Twitter', 'Threadless'],
+		'customer_type': [ "opticians", "dog walkers", "astronauts", "journalists", "dogs", "stamp collectors", "people who can't speak", "arachnophobes", "Norweigans", "aquatic mammals", "hermits", "people with a scrap of humanity", "kermits", "marketers", "businesses", "teachers", "hippies", "recovering alcoholics", "lumberjacks", "douchebags", "manatees", "monsters"],
 		'colour': ['Red', 'Blue', 'Orange', 'Mauve', 'Purple'],
 		'noun': ['Ostriches', 'Giraffe', 'Systems', 'Potato', 'Software', 'Bus'],
 		'company_name': ['The Big $colour $noun', '$colour $noun'],
-		'defined_offering' : ['a web application', 'a facebook app', 'an iPhone app'],
-		'solve_problem': ['meet people', 'find jobs', 'find love', 'organise their lives', 'plan their weddings', 'take over the world', 'obtain leads', 'reach their fans', 'embrace the cloud'],
-		'in_way': ['', 'through crowdsourcing', 'offline', 'using big data analytics', 'and $solve_problem'],
+		'defined_offering' : ['a web application', 'a facebook app', 'an iPhone app', 'an iOS app', 'an MS-DOS app', 'massive arms', 'a captive portal'],
+		'solve_problem': ['meet people', 'find jobs', 'find love', 'organise their lives', 'plan their weddings', 'take over the world', 'obtain leads', 'reach their fans', 'embrace the cloud', 'talk directly to customers'],
+		'in_way': [ "", "through crowdsourcing", "offline", "using big data analytics", "and $solve_problem", "instantly", "through gamification", "at night", "from their garden sheds" ],
 		'template': [
 			"It's like $famous_startup but for $customer_type",
 			"My company, $company_name, is developing $defined_offering to help $customer_type $solve_problem $in_way"
