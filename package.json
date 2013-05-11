@@ -1,0 +1,12 @@
+{
+  "name": "madlib-startups",
+  "author": "Theo Spears <theo@theos.me.uk>",
+  "dependencies": {
+    "express": "2.5.x",
+    "mongodb": ">=0.9.0"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">=0.6"
+  }
+}
